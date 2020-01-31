@@ -57,12 +57,12 @@ func GetWorkspaceRegistrySecret(clientset *kubernetes.Clientset, namespace strin
 // GetOwnerReferences retrieves the owner reference name and UID, allowing us to tie any Codewind resources to the Che workspace
 // Enabling the Kubernetes garbage collector clean everything up when the workspace is deleted
 func GetOwnerReferences(clientset *kubernetes.Clientset, namespace string, cheWorkspaceID string) (string, types.UID) {
-	// Get the Workspace pod
+	// Get a Che workspace pod
 	var ownerReferenceName string
 	var ownerReferenceUID types.UID
 
 	workspacePod, err := clientset.CoreV1().Pods(namespace).List(metav1.ListOptions{
-		LabelSelector: "che.original_name=che-workspace-pod,che.workspace_id=" + cheWorkspaceID,
+		LabelSelector: "che.workspace_id=" + cheWorkspaceID,
 	})
 	if err != nil {
 		log.Errorf("Error: Unable to retrieve the workspace pod %v\n", err)
