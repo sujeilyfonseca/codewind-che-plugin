@@ -15,7 +15,7 @@ metadata:
 subjects:
 - kind: ServiceAccount
   namespace: che
-  name: che-workspace
+  name: codewind
 roleRef:
   kind: ClusterRole
   name: codewind-tekton

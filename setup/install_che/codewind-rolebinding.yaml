@@ -14,7 +14,7 @@ metadata:
   name: codewind-rolebinding
 subjects:
 - kind: ServiceAccount
-  name: che-workspace
+  name: codewind
 roleRef:
   kind: ClusterRole
   name: eclipse-codewind
