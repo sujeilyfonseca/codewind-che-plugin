@@ -37,6 +37,19 @@ func DeployCodewind(clientset *kubernetes.Clientset, codewind Codewind, namespac
 		}
 	}
 
+	_, err = clientset.CoreV1().ServiceAccounts(namespace).Get(codewind.ServiceAccountName, metav1.GetOptions{})
+	if err != nil {
+		// Codewind service account doesn't exist, so generate one
+		log.Infof("Creating service account %s for Codewind", codewind.ServiceAccountName)
+		sa := generateServiceAccount(codewind)
+
+		_, err = clientset.CoreV1().ServiceAccounts(namespace).Create(&sa)
+		if err != nil {
+			log.Errorf("Unable to create Service Account for Codewind: %v\n", err)
+			return err
+		}
+	}
+
 	// Deploy Codewind PFE
 	service := createPFEService(codewind)
 	deploy := createPFEDeploy(codewind)

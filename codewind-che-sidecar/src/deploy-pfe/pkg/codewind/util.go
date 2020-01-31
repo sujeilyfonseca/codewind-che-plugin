@@ -422,6 +422,22 @@ func generatePVC(codewind Codewind, volumeSize string, storageClass string, wsPV
 	return pvc
 }
 
+// generateServiceAccount creates a service account for PFE
+func generateServiceAccount(codewind Codewind) corev1.ServiceAccount {
+
+	sa := corev1.ServiceAccount{
+		TypeMeta: metav1.TypeMeta{
+			APIVersion: "v1",
+			Kind:       "ServiceAccount",
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name: codewind.ServiceAccountName,
+		},
+	}
+
+	return sa
+}
+
 // GetImages returns the images that are to be used for PFE and the Performance dashboard in Codewind
 // If environment vars are set (such as $PFE_IMAGE, $PFE_TAG, $PERFORMANCE_IMAGE, or $PERFORMANCE_TAG), it will use those,
 // otherwise it defaults to the constants defined in constants/default.go
