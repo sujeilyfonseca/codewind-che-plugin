@@ -3,6 +3,9 @@ package constants
 import corev1 "k8s.io/api/core/v1"
 
 const (
+	// CodewindServiceAccountName is the service account name to use for all Codewind related deployments
+	CodewindServiceAccountName = "codewind-sa"
+
 	// PFEPrefix is the prefix all PFE-related resources: deployment, service, and ingress/route
 	PFEPrefix = "codewind"
 

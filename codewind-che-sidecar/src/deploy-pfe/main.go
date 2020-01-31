@@ -63,10 +63,6 @@ func main() {
 	}
 	log.Infof("Ingress: %s\n", cheIngress)
 
-	// Get the Che workspace service account to use with Codewind
-	serviceAccountName := che.GetWorkspaceServiceAccount(clientset, namespace, cheWorkspaceID)
-	log.Infof("Service Account: %s\n", serviceAccountName)
-
 	// Get the Owner reference name and uid
 	ownerReferenceName, ownerReferenceUID := che.GetOwnerReferences(clientset, namespace, cheWorkspaceID)
 
@@ -85,7 +81,7 @@ func main() {
 		PerformanceImage:   performance,
 		Namespace:          namespace,
 		WorkspaceID:        cheWorkspaceID,
-		ServiceAccountName: serviceAccountName,
+		ServiceAccountName: constants.CodewindServiceAccountName,
 		OwnerReferenceName: ownerReferenceName,
 		OwnerReferenceUID:  ownerReferenceUID,
 		Privileged:         true,

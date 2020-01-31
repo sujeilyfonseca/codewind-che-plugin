@@ -35,28 +35,6 @@ func GetWorkspacePVC(clientset *kubernetes.Clientset, namespace string, cheWorks
 	return &PVCs.Items[0]
 }
 
-// GetWorkspaceServiceAccount retrieves the Service Account associated with the Che workspace we're deploying Codewind in
-func GetWorkspaceServiceAccount(clientset *kubernetes.Clientset, namespace string, cheWorkspaceID string) string {
-	var serviceAccountName string
-
-	// Retrieve the workspace service account labeled with the Che Workspace ID
-	workspacePod, err := clientset.CoreV1().Pods(namespace).List(metav1.ListOptions{
-		LabelSelector: "che.original_name=che-workspace-pod,che.workspace_id=" + cheWorkspaceID,
-	})
-	if err != nil || workspacePod == nil {
-		log.Errorf("Error retrieving the Che workspace pod %v\n", err)
-		os.Exit(1)
-	} else if len(workspacePod.Items) != 1 {
-		// Default to che-workspace as the Service Account name if one couldn't be found
-		serviceAccountName = "che-workspace"
-	} else {
-		serviceAccountName = workspacePod.Items[0].Spec.ServiceAccountName
-	}
-
-	return serviceAccountName
-
-}
-
 // GetWorkspaceRegistrySecret retrieves the Kubernetes ImagePullSecret associated with the Che workspace we're deploying Codewind in
 func GetWorkspaceRegistrySecret(clientset *kubernetes.Clientset, namespace string, cheWorkspaceID string) string {
 	var secretName string
